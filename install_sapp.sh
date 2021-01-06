@@ -5,8 +5,8 @@
 clear
 
 # Install wget
-echo -e "\033[0;34m### Installing wget\033[0m\n"
-sudo apt install wget zip unzip -y
+echo -e "\033[0;34m### Installing required packages\033[0m\n"
+sudo apt install wget zip unzip jq curl -y
 
 # Create directory for binaries zip file and bootstrap.zip and change directory to it
 mkdir tmp
@@ -30,8 +30,22 @@ unzip -q bootstrap.zip -d $HOME/.sap
 cd $HOME
 rm -fr tmp
 
+# Install blocknotify.sh script
+sudo curl -sL https://raw.githubusercontent.com/pedro-at-decenomy/seed_scripts/master/blocknotify.sh > /usr/local/bin/blocknotify.sh
+chmod +x /usr/local/bin/blocknotify.sh
+
 # Create empty sap.conf file and fill it with arguments
 echo -e "\n\033[0;34m### Creating sap.conf and populating it\033[0m\n"
+
+echo -e "\n\033[0;33m### Please enter node ID (Example: SAPP01)\033[0m\n"
+read -e ID
+echo -e "\n\033[0;33m### Please enter node TICKER (Example: SAPP)\033[0m\n"
+read -e TICKER
+echo -e "\n\033[0;33m### Please enter node cli name (Example: sap-cli)\033[0m\n"
+read -e CLI
+# Run blocknotify once
+#/usr/local/bin/blocknotify.sh $ID $TICKER $CLI
+
 touch $HOME/.sap/sap.conf
 echo "daemon=1" >> $HOME/.sap/sap.conf
 echo "server=1" >> $HOME/.sap/sap.conf
@@ -45,6 +59,9 @@ echo "addnode=seed7.sappcoin.com" >> $HOME/.sap/sap.conf
 echo "addnode=seed8.sappcoin.com" >> $HOME/.sap/sap.conf
 echo "banaddressmempool=SfFQ3twBcziZAHMeULnrDSemaqZqHUpmj4" >> $HOME/.sap/sap.conf
 echo "banaddressmempool=SPixuKa8Vnyi6RpcB8XTXh7TBqq6TqZ43b" >> $HOME/.sap/sap.conf
+#echo "alertnotify=echo %s | mail -s \"Kyanite-testnet alert!\" bedriguler@gmail.com" >> $HOME/.sap/sap.conf
+echo "blocknotify=/usr/local/bin/blocknotify $ID $TICKER $CLI %s" >> $HOME/.sap/sap.conf
+
 
 # Install as a service
 sudo cat << EOF > /etc/systemd/system/sap.service
