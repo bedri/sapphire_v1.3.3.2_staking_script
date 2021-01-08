@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script assumes either the user is root or it has a sudo permission
+# This script assumes that the user is root and the shell is at root's home
 
 clear
 
@@ -39,10 +39,10 @@ echo -e "\n\033[0;34m### Creating sap.conf and populating it\033[0m\n"
 
 echo -e "\n\033[0;33m### Please enter node ID (Example: SAPP01)\033[0m\n"
 read -e ID
-echo -e "\n\033[0;33m### Please enter node TICKER (Example: SAPP)\033[0m\n"
-read -e TICKER
-echo -e "\n\033[0;33m### Please enter node cli name (Example: sap-cli)\033[0m\n"
-read -e CLI
+#echo -e "\n\033[0;33m### Please enter node TICKER (Example: SAPP)\033[0m\n"
+#read -e TICKER
+#echo -e "\n\033[0;33m### Please enter node cli name (Example: sap-cli)\033[0m\n"
+#read -e CLI
 # Run blocknotify once
 #/usr/local/bin/blocknotify.sh $ID $TICKER $CLI
 
@@ -60,7 +60,7 @@ echo "addnode=seed8.sappcoin.com" >> $HOME/.sap/sap.conf
 echo "banaddressmempool=SfFQ3twBcziZAHMeULnrDSemaqZqHUpmj4" >> $HOME/.sap/sap.conf
 echo "banaddressmempool=SPixuKa8Vnyi6RpcB8XTXh7TBqq6TqZ43b" >> $HOME/.sap/sap.conf
 #echo "alertnotify=echo %s | mail -s \"Kyanite-testnet alert!\" bedriguler@gmail.com" >> $HOME/.sap/sap.conf
-echo "blocknotify=/usr/local/bin/blocknotify $ID $TICKER $CLI %s" >> $HOME/.sap/sap.conf
+echo "blocknotify=/usr/local/bin/blocknotify.sh $ID SAPP sap-cli" >> $HOME/.sap/sap.conf
 
 
 # Install as a service
