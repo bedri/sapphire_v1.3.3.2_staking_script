@@ -1,0 +1,16 @@
+{
+  "Name":"Sapphire",
+  "ShortName":"sapphire",
+  "Description":"Sapphire Coin",
+  "Ticker":"SAPP",
+  "LatestVersion":"v1.3.3.2",
+  "Daemon":"sapd",
+  "Cli":"sap-cli",
+  "Tx":"sap-tx",
+  "Qt":"sap-qt",
+  "DataDirectory":".sap",
+  "ConfName":"sap.conf",
+  "PidName":"sap.pid",
+  "Bootstrap":"http://sappexplorer.com/bootstrap.zip",
+  "Binaries":"https://github.com/sappcoin-com/SAPP/releases/download/v1.3.3.2/SAPP-1.3.3.2-Linux.zip"
+}
