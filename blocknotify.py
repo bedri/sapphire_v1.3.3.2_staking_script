@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
+
+# pip install python-dotenv
+# install this to get rpc user and password from the .env file
+
 import sys
 import json
 import requests
 import argparse
+import os
+from dotenv import load_dotenv
 
 def rpc_request(auth, port, method, params=[]):
     """Executes a JSON-RPC request and returns the result."""
@@ -34,17 +40,24 @@ def main():
     """
     Main function to gather node info via RPC and post it.
     """
+    load_dotenv() # Load variables from .env file
+
     parser = argparse.ArgumentParser(description="Get node info and post it to a URL.")
     parser.add_argument("ticker", help="The ticker symbol of the coin (e.g., SAPP).")
     parser.add_argument("--posturl", required=True, help="The URL to post the node data to.")
     parser.add_argument("--rpcport", type=int, default=51475, help="The JSON-RPC port of the local daemon (default: 51475).")
     args = parser.parse_args()
 
-    # --- RPC Configuration ---
-    rpc_user = "BrpUJgD3yk"
-    rpc_password = "MeYPP1d2JLALBUn73K95qY"
+    # --- RPC Configuration from .env file ---
+    rpc_user = os.getenv("RPC_USER")
+    rpc_password = os.getenv("RPC_PASSWORD")
+
+    if not rpc_user or not rpc_password:
+        print("Error: RPC_USER and RPC_PASSWORD must be set in the .env file.", file=sys.stderr)
+        sys.exit(1)
+
     rpc_auth = (rpc_user, rpc_password)
-    # -------------------------
+    # -----------------------------------------
 
     # Get response from RPC
     info = rpc_request(rpc_auth, args.rpcport, "getinfo")
